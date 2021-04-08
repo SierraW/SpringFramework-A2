@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="ISO-8859-1">
+<title>Forum</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+</head>
+<body>
+<div class="m-5">
+<h1>Welcome to our forum!</h1>
+<a href="/forum/createThread" th:href="@{/forum/createThread}" class="btn btn-primary btn-lg" tabindex="-1" role="button">Create new thread</a>
+<a href="#" th:href="@{/logout}" class="ml-5 btn btn-danger btn-lg" tabindex="-1" role="button">Sign out</a>
+<table class="table" th:unless="${#lists.isEmpty(threads)}">
+  <thead>
+    <tr>
+    	<th scope="col">#</th>
+      <th scope="col">Title</th>
+      <th scope="col">Body</th>
+      <th scope="col">Creator</th>
+      <th scope="col">Date</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr th:each="t:${threads}">
+      <th scope="row" th:text="${t.id}">1</th>
+      <td th:text="${t.title}">title</td>
+      <td th:text="${t.body}" style="min-width: 300px">body</td>
+      <td th:text="${t.creator.name}">creator</td>
+      <td th:text="${t.time}">time</td>
+      <td>
+      <form method="post" action="#" th:action="@{/forum/thread}">
+      	<input type="number" name="threadId" hidden="true" th:value="${t.id}">
+        <button type="submit" class="btn btn-success btn-sm">Visit</button>
+      </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="card mt-3 card-body" th:if="${#lists.isEmpty(threads)}">
+    <h6 class="card-subtitle mb-2 text-muted">No results</h6>
+</div>
+</div>
+
+</body>
+</html>
